@@ -89,15 +89,16 @@ func main() {
 			mod2 := copyModElementMap(mod)
 			mod2[alfred.Mods_Cmd] = &alfred.ModElement{
 				Valid:    true,
-				Arg:      wordsToSayCmdOption(title, r),
+				Arg:      wordsToYoudaoCmdOption(q),
 				Subtitle: "发音",
 			}
 			item := alfred.ResultElement{
-				Valid:    true,
-				Title:    title,
-				Subtitle: phonetic,
-				Arg:      title,
-				Mods:     mod2,
+				Valid:        true,
+				Title:        title,
+				Subtitle:     phonetic,
+				Arg:          title,
+				QuickLookUrl: toYoudaoDictUrl(q),
+				Mods:         mod2,
 			}
 			items.Append(&item)
 		}
@@ -112,11 +113,12 @@ func main() {
 			Subtitle: "发音",
 		}
 		item := alfred.ResultElement{
-			Valid:    true,
-			Title:    title,
-			Subtitle: "翻译结果",
-			Arg:      title,
-			Mods:     mod2,
+			Valid:        true,
+			Title:        title,
+			Subtitle:     "翻译结果",
+			Arg:          title,
+			QuickLookUrl: toYoudaoDictUrl(q),
+			Mods:         mod2,
 		}
 		items.Append(&item)
 	}
@@ -136,11 +138,12 @@ func main() {
 				Subtitle: "发音",
 			}
 			items.Append(&alfred.ResultElement{
-				Valid:    true,
-				Title:    elem.Key,
-				Subtitle: strings.Join(elem.Value, "; "),
-				Arg:      elem.Key,
-				Mods:     mod,
+				Valid:        true,
+				Title:        elem.Key,
+				Subtitle:     strings.Join(elem.Value, "; "),
+				Arg:          elem.Key,
+				QuickLookUrl: toYoudaoDictUrl(q),
+				Mods:         mod,
 			})
 		}
 	}

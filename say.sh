@@ -7,6 +7,7 @@ PATH='/bin:/usr/bin'
 POSITIONAL=()
 LANGUAGE=''
 VOICE=''
+YOUDAO=false
 
 while [[ $# -gt 0 ]]
 do
@@ -18,6 +19,10 @@ do
             shift
             shift
             ;;
+        --yd)
+            YOUDAO=true
+            shift
+            ;;
         *)
             POSITIONAL+=("$1")
             shift
@@ -27,12 +32,21 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-if [[ ${#LANGUAGE} -gt 0 ]]; then
-    VOICE=$(say -v ? | grep $LANGUAGE | cut -f1 -d ' ' | head -n 1)
-fi
-
-if [[ ${#VOICE} -gt 0 ]]; then
-    say -v $VOICE $@
+if [[ "$YOUDAO" = true ]]; then
+    cd $TMPDIR
+    curl -s -o $@ "https://dict.youdao.com/dictvoice?audio={$@}&type=2"
+    afplay -q 1 $@
+    rm $@
 else
-    say $@
+
+    if [[ ${#LANGUAGE} -gt 0 ]]; then
+        VOICE=$(say -v ? | grep $LANGUAGE | cut -f1 -d ' ' | head -n 1)
+    fi
+
+    if [[ ${#VOICE} -gt 0 ]]; then
+        say -v $VOICE $@
+    else
+        say $@
+    fi
+
 fi

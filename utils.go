@@ -88,6 +88,10 @@ func wordsToSayCmdOption(q string, r *youdao.Result) string {
 	return q
 }
 
+func wordsToYoudaoCmdOption(q string) string {
+	return fmt.Sprintf("--yd %s", q)
+}
+
 func languageToSayLanguage(l string) string {
 	switch l {
 	case "zh-CHS":
